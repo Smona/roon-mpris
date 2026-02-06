@@ -2,8 +2,8 @@
 "use strict";
 
 const RoonApi = require("node-roon-api");
-const RoonApiTransport = require("node-roon-api-transport");
 const RoonApiSettings  = require("node-roon-api-settings");
+const RoonApiTransport = require('node-roon-api-transport');
 const Player = require('mpris-service');
 const yargs = require('yargs');
 const os = require('os');
@@ -34,6 +34,11 @@ const argv = yargs
         type: 'string',
         default: 'none'
     })
+    .option('zone', {
+        alias: 'z',
+        description: 'Display name of the zone mapped to this machine',
+        type: 'string',
+    })
     .help()
     .argv;
 
@@ -44,8 +49,6 @@ function zoneChanged(new_zone) {
     zone = new_zone;
     var url = core.moo.transport.ws._url.substring(5);
     var now_playing = zone.now_playing;
-
-    console.log(zone);
 
     if (now_playing) {
         mpris.metadata = {
@@ -70,11 +73,9 @@ function setSeek(seek) {
     mpris.position = seek * 1000 * 1000;
 }
 
-
 const working_directory = `${os.homedir()}/.config/roon-mpris`
 fs.mkdirSync(working_directory, { recursive: true });
 process.chdir( working_directory )
-
 
 const roon = new RoonApi({
     extension_id:        'com.8bitcloud.roon-mpris',
@@ -85,8 +86,8 @@ const roon = new RoonApi({
     email:               'bruce@brucecooper.net',
     website:             'https://github.com/brucejcooper/roon-mpris',
     core_paired: function(core_) {
+      console.log('paired with core:', core_.display_name)
       core = core_;
-
 
       let transport = core.services.RoonApiTransport;
       transport.subscribe_zones(function(cmd, data) {
@@ -97,7 +98,7 @@ const roon = new RoonApi({
         if (zones) {
             for (var candidate of zones) {
                 // We only want to respond to our configured zone.
-                if (mysettings.zone && candidate.display_name === mysettings.zone.name) {
+                if (argv.zone && candidate.display_name === argv.zone) {
                     zoneChanged(candidate);
                 }
             }
@@ -170,8 +171,7 @@ const svc_settings = new RoonApiSettings(roon, {
 });
   
 roon.init_services({
-    required_services: [ RoonApiTransport ],
-    provided_services:   [ svc_settings ],
+  required_services: [RoonApiTransport],
 });
   
 
@@ -195,7 +195,6 @@ var mpris = Player({
 
 mpris.getPosition = function() {
   // return the position of your player
-  console.log("asking for position")
   return zone ? zone.now_playing.seek_position * 1000 * 1000 : 0;
 }
 
@@ -207,10 +206,10 @@ events.forEach(function (eventName) {
 	});
 });
 
-['playpause', 'stop', 'next', 'previous'].forEach(function (eventName) {
+['playpause', 'stop', 'next', 'pause', 'play', 'previous'].forEach(function (eventName) {
     mpris.on(eventName,  () => {
         console.log("Executing event", eventName);
-        core.services.RoonApiTransport.control(mysettings.zone, eventName)
+        if (zone) core.services.RoonApiTransport.control(zone, eventName)
     });
 });
 

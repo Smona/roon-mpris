@@ -78,13 +78,13 @@ fs.mkdirSync(working_directory, { recursive: true });
 process.chdir( working_directory )
 
 const roon = new RoonApi({
-    extension_id:        'com.8bitcloud.roon-mpris',
+    extension_id:        'com.smona.roon-mpris',
     display_name:        "MPRIS adapter",
     display_version:     "1.0.0",
     log_level:           argv.log,
-    publisher:           'Bruce Cooper',
-    email:               'bruce@brucecooper.net',
-    website:             'https://github.com/brucejcooper/roon-mpris',
+    publisher:           'Mel Bourgeois',
+    email:               'mason.bourgeois@gmail.com',
+    website:             'https://github.com/Smona/roon-mpris',
     core_paired: function(core_) {
       console.log('paired with core:', core_.display_name)
       core = core_;

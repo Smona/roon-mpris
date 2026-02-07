@@ -1,19 +1,12 @@
 {
-  lib,
-  buildNpmPackage,
-  fetchFromGitHub,
+  pkgs ? import <nixpkgs> {},
 }:
 
-buildNpmPackage (finalAttrs: {
+pkgs.buildNpmPackage (finalAttrs: {
   pname = "roon-mpris";
-  version = "a54df5ac137fb82935d156942f57486417abc9da";
+  version = "1.0.0";
 
-  src = fetchFromGitHub {
-    owner = "Smona";
-    repo = "roon-mpris";
-    rev = finalAttrs.version;
-    hash = "sha256-mI1E4MDdGBfP22E7OcnbUHnxJ8xnC1UBqi+xpulBBUE=";
-  };
+  src = ./.;
 
   npmDepsHash = "sha256-+5EOMO0OgnFS9nJvyJR+cfBBjLb2rsW33ahKwVtT6fk=";
 
@@ -22,11 +15,4 @@ buildNpmPackage (finalAttrs: {
 
   makeCacheWritable = true;
   dontNpmBuild = true;
-
-  meta = {
-    description = "A script that allows you to control roon from your MPRIS based linux desktop";
-    homepage = "https://github.com/Smona/roon-mpris";
-    license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ Smona ];
-  };
 })

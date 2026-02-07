@@ -2,7 +2,7 @@ This is a fork of [brucejcooper/roon-mpris](https://github.com/brucejcooper/roon
 
 # Description
 
-Want to control [Roon](https://roonlabs.com/) from your keyboard on linux?  You can run [Roon on Wine](https://github.com/RoPieee/roon-on-wine) which allows you to select albums to play or whatever, but this does not hook up to the standard media controller buttons (PLAY, PAUSE, NEXT, PREV) used on Ubuntu, [MPRIS](https://www.freedesktop.org/wiki/Specifications/mpris-spec/).  
+Want to control [Roon](https://roonlabs.com/) from your keyboard on linux?  You can run [Roon on Wine](https://github.com/RoPieee/roon-on-wine) which allows you to select albums to play or whatever, but this does not hook up to the standard media control buttons (PLAY, PAUSE, NEXT, PREV) that are often integrated via [MPRIS](https://www.freedesktop.org/wiki/Specifications/mpris-spec/).
 
 This little script provides a way to have MPRIS (`playerctl`) control Roon's basic functions, like Play, Pause, Next and Previous. It also exposes the playing track's artist, title, playback progress, and album art to MPRIS.
 

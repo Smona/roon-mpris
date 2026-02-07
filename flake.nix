@@ -15,7 +15,7 @@
     in
     {
       packages = forAllSystems ({ pkgs, ... }: {
-        roon-mpris = pkgs.callPackage ./default.nix {};
+        roon-mpris = import ./default.nix { inherit pkgs; };
         default = self.packages.${pkgs.system}.roon-mpris;
       });
     };

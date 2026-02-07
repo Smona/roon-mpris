@@ -12,7 +12,7 @@ This little script provides a way to have MPRIS (`playerctl`) control Roon's bas
     ```bash
     npm install -g github:brucejcooper/roon-mpris
     ```
-1. run the script from any directory
+1. run the script from any directory. Note that this will create a configuration file in `${HOME}/.config/roon-mpris`.
     ```bash
     # auto-discover Core
     # --zone is required, and specifies the name of the zone that 
@@ -25,7 +25,6 @@ This little script provides a way to have MPRIS (`playerctl`) control Roon's bas
 
     roon-mpris --host <IP address> --port <port> --zone <zone name>
     ```
-    Note that this will create a configuration file in `${HOME}/.config/roon-mpris`.
 1. In your existing Roon application (phone or desktop) Go to `Roon` -> `Settings` -> `Extensions`.  You should see the "MPRIS adapter". Click "Enable" to permanently allow the extension to connect to the Core.
 1. Use your keyboard to control playback.  Supported keys are PLAY, PAUSE, PLAY/PAUSE, STOP (which appears to just pause), NEXT and PREV
 

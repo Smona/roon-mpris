@@ -8,11 +8,27 @@ This little script provides a way to have MPRIS (`playerctl`) control Roon's bas
 
 # Installation
 
-1. Install this software
+1. Install this software. You can either install it with NPM:
     ```bash
-    npm install -g github:brucejcooper/roon-mpris
+    npm install -g github:Smona/roon-mpris
     ```
-1. run the script from any directory. Note that this will create a configuration file in `${HOME}/.config/roon-mpris`.
+    
+    Or if you use Nix, use the included `flake.nix` or `default.nix`:
+    ```nix
+    # flake.nix
+    inputs = {
+      roon-mpris = {
+        url = "github:Smona/roon-mpris";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+    }
+    
+    # configuration.nix
+    environment.systemPackages = [ inputs.roon-mpris.packages.${pkgs.system}.default ]
+    ```
+1. run the script from any directory. Note that this will create a configuration file in `${HOME}/.config/roon-mpris`. 
+
+   Once you have a command that works, you'll probably want to set it up to run on login using your desktop environment, window manager, or a systemd service.
     ```bash
     # auto-discover Core
     # --zone is required, and specifies the name of the zone that 

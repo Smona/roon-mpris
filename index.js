@@ -91,6 +91,10 @@ const roon = new RoonApi({
 
       let transport = core.services.RoonApiTransport;
       transport.subscribe_zones(function(cmd, data) {
+        if (!data) {
+            console.warn("Received unexpected message with no data: ", cmd);
+            return;
+        }
 
         // When we connect, we receive a zones event.  When a zone chages, we receive a zones_changed.
         // They are the same type, and we treat them the same.

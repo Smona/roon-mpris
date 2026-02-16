@@ -92,7 +92,8 @@ const roon = new RoonApi({
       let transport = core.services.RoonApiTransport;
       transport.subscribe_zones(function(cmd, data) {
         if (!data) {
-            console.warn("Received unexpected message with no data: ", cmd);
+            // Only messages of this type observed so far have a cmd of "NetworkError" and correspond with
+            // core_unpaired invocation, so we can simply ignore these errors.
             return;
         }
 
@@ -125,13 +126,7 @@ const roon = new RoonApi({
       });
     },
     core_unpaired: function(core_) {
-      core = core_;
-      console.log(core.core_id,
-        core.display_name,
-        core.display_version,
-        "-",
-        "LOST"
-      );
+      console.warn(`disconnected from core ${core_.display_name}, attempting to reconnect...`);
       core = undefined;
       // attempt to re-connect
       connect_to_core()

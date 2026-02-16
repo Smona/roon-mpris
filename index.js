@@ -133,6 +133,8 @@ const roon = new RoonApi({
         "LOST"
       );
       core = undefined;
+      // attempt to re-connect
+      connect_to_core()
     },
 });
 
@@ -180,13 +182,16 @@ roon.init_services({
   
 
 // My Work laptop blocks UDP by default, so we use the direct connect method
-if (argv.host) {
-    console.log(`Connecting to Core at ws://${argv.host}:${argv.port}`)
-    roon.ws_connect({ host: argv.host, port: argv.port});
-} else {
-    console.log("Autodiscovery of Core")
-    roon.start_discovery();
+function connect_to_core() {
+    if (argv.host) {
+        console.log(`Connecting to Core at ws://${argv.host}:${argv.port}`)
+        roon.ws_connect({ host: argv.host, port: argv.port});
+    } else {
+        console.log("Autodiscovery of Core")
+        roon.start_discovery();
+    }
 }
+connect_to_core();
 
 
 var mpris = Player({
